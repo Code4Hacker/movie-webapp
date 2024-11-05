@@ -1,0 +1,26 @@
+@import url(./styles/styles.scss);
+:root{
+  --primary:black ;
+  --secondary:rgb(193, 35, 35);
+  --cream:rgb(255, 255, 255);
+  --slim_grey:rgb(70, 70, 70);
+  --slim_grey2:rgb(104, 104, 104);
+  --cream_opc:rgba(239, 239, 239, 0.074);
+}
+::-webkit-scrollbar{
+  background-color: rgba(255, 0, 0, 0);
+  width: 5px;
+  height: 5px;
+  border-radius: 50px;
+}
+::-webkit-scrollbar-thumb{
+  background: linear-gradient(45deg,var(--cream_opc),transparent,var(--cream_opc));
+  background-color: var(--cream_opc);
+  transition: 1s ease-in-out;
+  border-radius: 50px;
+}
+::-webkit-scrollbar-thumb:hover{
+  background: linear-gradient(45deg,var(--cream_opc),var(--secondary),var(--cream_opc));
+  background-color: var(--secondary);
+  border-radius: 50px;
+}
