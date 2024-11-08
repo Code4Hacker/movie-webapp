@@ -5,10 +5,10 @@ import { BookmarkFill, Search, Wifi } from 'react-bootstrap-icons'
 import { baseUrlImage } from '../../../provider/baseURLs'
 import { Carousel, Container, Divider, Tooltip, Whisper } from 'rsuite'
 import Aos from 'aos'
-import { fetchAllMovie } from '../../../provider/fetchallmovie'
 import toast from 'react-hot-toast'
 import { movieProviderPath, popularPath, searchPath, topratedPath, trendingsPath, upcomingPath } from '../../../statics/urls'
 import { Link } from 'react-router-dom'
+import { fetchAllMovie } from '../../../provider/requests/fetchallmovie'
 
 
 const MovieTrailer = () => {

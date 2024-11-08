@@ -145,8 +145,71 @@
     }
 
 }
-
+.trans{
+    text-align: center;
+    border-radius: 50px;
+    background: none !important;
+    border: none;
+    text-transform: uppercase;
+    color: var(--slim_grey2) !important;
+    font-weight: 500;
+    position: relative;
+    transition: 0.3s ease-in-out;
+    text-decoration: none !important;
+}
+.trans:hover{
+    text-align: center;
+    border-radius: 50px;
+    background: none !important;
+    border: none;
+    text-transform: uppercase;
+    color: var(--slim_grey2) !important;
+    font-weight: 500;
+    background-color: var(--cream_opc) !important;
+    position: relative;
+    transition: 0.3s ease-in-out;
+    text-decoration: none !important;
+}
 .home_page {
+    .avatar{
+        h1{
+            font-weight: 900;
+            font-size: 2em;
+            position: absolute;
+            top: 50%;
+            color: var(--secondary);
+            left: 50%;
+            transform: translate(-50%,-50%);
+        }
+    }
+    .login{
+        text-align: center;
+        border-radius: 50px;
+        background: none !important;
+        border: none;
+        text-transform: uppercase;
+        color: var(--slim_grey2) !important;
+        font-weight: 500;
+        position: relative;
+        margin-top: 12px;
+        margin-left: 8px;
+        margin-right: 50px;
+        transition: 0.3s ease-in-out;
+        text-decoration: none !important;
+    }
+    .login:hover{
+        text-align: center;
+        border-radius: 50px;
+        background: none !important;
+        border: none;
+        text-transform: uppercase;
+        color: var(--secondary) !important;
+        font-weight: 500;
+        position: relative;
+        margin-top: 12px;
+        margin-left: 24px;
+        margin-right: 50px;
+    }
 
     .grid {
         display: grid;
@@ -194,11 +257,13 @@
     }
 
     .input {
+        margin-bottom: 4px;
         border: 2px solid var(--slim_grey);
         width: 320px;
         border-radius: 50px;
         background-color: var(--cream_opc);
         display: flex;
+        font-weight: 500;
 
         input {
             background: transparent;
@@ -213,7 +278,7 @@
 
         input::placeholder {
             text-transform: uppercase;
-            color: var(--cream);
+            color: var(--slim_grey2);
         }
 
         button {
@@ -433,6 +498,23 @@
             }
         }
     }
+.avatar{
+    h1{
+        font-weight: 900;
+        font-size: 2em;
+        position: absolute;
+        top: 50%;
+        color: var(--secondary);
+        left: 50%;
+        transform: translate(-50%,-50%);
+    }
+}
+.sign_up{
+    min-width: 240px !important;
+    text-align: center;
+    border-radius: 50px;
+    background: none !important;
+}
 
 }
 

@@ -7,18 +7,16 @@ import Divider from '@mui/material/Divider';
 import FormLabel from '@mui/material/FormLabel';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
-// import Link from '@mui/material/Link';
+import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
 import { styled } from '@mui/material/styles';
 import { Google } from 'react-bootstrap-icons';
 import { server_provider } from '../provider/requests/hitmydb';
-import { loginPath } from '../statics/urls';
+import { signUpPath } from '../statics/urls';
 import toast from 'react-hot-toast';
-import { Link, useNavigate } from 'react-router-dom';
-import { home, signUp } from '../statics/paths';
-import { signInWithPopup, signOut } from 'firebase/auth';
+import { signInWithPopup } from 'firebase/auth';
 import { auth, googleProvider } from '../firebaseConfig';
 
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -39,35 +37,31 @@ const Card = styled(MuiCard)(({ theme }) => ({
   }),
 }));
 
-export default function SignInCard({ setOpens }) {
+export default function SignUpCard({setOpens}) {
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState('');
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
-  const nav = useNavigate();
+  const [open, setOpen] = React.useState(false);
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (emailError || passwordError) {
       return;
     }
     const data = new FormData(event.currentTarget);
-    let loginvalidation = server_provider({ path: loginPath, method: 'POST', body: JSON.stringify({ username: data.get('email'), password: data.get('password') }) });
+    let loginvalidation = server_provider({ path: signUpPath, method: 'POST', body: JSON.stringify({ username: data.get('email'), password: data.get('password') }) });
     if (((await loginvalidation).status) === 200) {
       let responses = (await loginvalidation).data;
       switch (responses.status) {
         case 200:
           toast.success(responses.message);
-          const storage = window.localStorage;
-          storage.setItem("isLogin", "true");
-          storage.setItem("userN", `${data.get('email')}`);
-          nav(home);
+          setOpens(true);
           break;
         default:
-          toast.error(`${responses.message}`);
+          toast.error(`${responses.message.split(' ')[0].toLowerCase() === 'duplicate'?"Username already exist try to Sign In":responses.message}`);
           break;
       }
-    } else {
-      toast.error("Connection error");
     }
   };
 
@@ -100,20 +94,20 @@ export default function SignInCard({ setOpens }) {
   };
   const [user, setUser] = React.useState("null");
 
-  const signInWithGoogle = async () => {
+  const signUpWithGoogle = async () => {
     try {
       const result = await signInWithPopup(auth, googleProvider);
       setUser(`${result.user.email}`);
-      let loginvalidation = server_provider({ path: loginPath, method: 'POST', body: JSON.stringify({ username: result.user.email, password: "GOOGLE_PROVIDER" }) });
+      let loginvalidation = server_provider({ path: signUpPath, method: 'POST', body: JSON.stringify({ username: result.user.email, password: "GOOGLE_PROVIDER" }) });
       if (((await loginvalidation).status) === 200) {
         let responses = (await loginvalidation).data;
         switch (responses.status) {
           case 200:
-            toast.success(`you've sign in as ${result.user.email}`);
+            toast.success(`you've registered as ${result.user.email}`);
             const storage = window.localStorage;
             storage.setItem("isLogin", "true");
             storage.setItem("userN", `${result.user.email}`);
-            nav(home);
+            setOpens(true);
             break;
           default:
             toast.error(`${responses.message}`);
@@ -126,11 +120,11 @@ export default function SignInCard({ setOpens }) {
       toast.success(`${error}`)
     }
   };
-  
+
   return (
     <Card variant="outlined" style={{
       zIndex: 1
-    }} className='animate__animated animate__fadeInRight'>
+    }} className='animate__animated animate__fadeInUp'>
       <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
         {/* <Sitemark /> */}
       </Box>
@@ -139,7 +133,7 @@ export default function SignInCard({ setOpens }) {
         variant="h4"
         sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}
       >
-        Sign in
+        Sign up
       </Typography>
       <Box
         component="form"
@@ -184,23 +178,19 @@ export default function SignInCard({ setOpens }) {
             color={passwordError ? 'error' : 'primary'}
           />
         </FormControl>
-        <FormControlLabel
-          control={<Checkbox value="remember" color="primary" />}
-          label="Remember me"
-        />
         <Button type="submit" fullWidth variant="contained" onClick={validateInputs}>
           Sign in
         </Button>
         <Typography sx={{ textAlign: 'center' }}>
-          Don&apos;t have an account?{' '}
+          I have an account?{' '}
           <span>
-            <span
-              onClick={() => setOpens(false)}
-              style={{
-                cursor: 'pointer'
+          <span
+            onClick={() => setOpens(true)}
+            style={{
+                cursor:'pointer'
               }}
             >
-              Sign up
+              Sign in
             </span>
           </span>
         </Typography>
@@ -210,10 +200,10 @@ export default function SignInCard({ setOpens }) {
         <Button
           fullWidth
           variant="outlined"
-          onClick={signInWithGoogle}
+          onClick={signUpWithGoogle}
           startIcon={<Google />}
         >
-          Sign in with Google
+          Sign up with Google
         </Button>
       </Box>
     </Card>

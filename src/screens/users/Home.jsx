@@ -1,41 +1,30 @@
 import React, { useEffect, useState } from 'react'
 import { Loading, MovieCard, SiderBar } from '../../components'
 import { bannerImage, imdbImage } from '../../assets'
-import { BellFill, BookmarkFill, Moon, MoonFill, Search, Wifi } from 'react-bootstrap-icons'
-import { SampleData } from '../../raws'
-import { accessKey, accessToken, baseUrl, baseUrlImage } from '../../provider/baseURLs'
-import { Carousel, Container, Divider, Tooltip, Whisper, Form, Button, ButtonToolbar, Schema, Panel } from 'rsuite'
+import { BookmarkFill, Search, Wifi } from 'react-bootstrap-icons'
+import { baseUrlImage } from '../../provider/baseURLs'
+import { Carousel, Container, Divider, Tooltip, Whisper, Form, Schema } from 'rsuite'
 import Aos from 'aos'
-import axios from 'axios'
-import { fetchAllMovie } from '../../provider/fetchallmovie'
 import toast from 'react-hot-toast'
-import { movieProviderPath, popularPath, searchPath, topratedPath, trendingsPath, upcomingPath } from '../../statics/urls'
+import { movieProviderPath, popularPath, searchPath, topratedPath, trendingsPath, upcomingPath, watchlistsPath } from '../../statics/urls'
 import { Link } from 'react-router-dom'
 import Marquee from 'react-fast-marquee'
-
-const { StringType } = Schema.Types;
-const model = Schema.Model({
-    name: StringType().isRequired('This field is required.'),
-    email: StringType()
-        .isEmail('Please enter a valid email address.')
-        .isRequired('This field is required.')
-});
-function TextField(props) {
-    const { name, label, accepter, ...rest } = props;
-    return (
-        <Form.Group controlId={`${name}-3`}>
-            <Form.ControlLabel>{label} </Form.ControlLabel>
-            <Form.Control name={name} accepter={accepter} {...rest} />
-        </Form.Group>
-    );
-}
+import { fetchAllMovie } from '../../provider/requests/fetchallmovie'
+import { signIn } from '../../statics/paths'
+import { server_provider } from '../../provider/requests/hitmydb'
+import { movie_format } from '../../components/jsonbuilder'
+import { auth } from '../../firebaseConfig'
+import { signOut } from 'firebase/auth'
 const Home = () => {
+    const storage = window.localStorage;
     const [bannerMovie, setBannerMovie] = useState([]);
     const [popular, setPopular] = useState([]);
     const [upcomings, setUpcomings] = useState([]);
     const [toprateds, setToprateds] = useState([]);
     const [movieprovider, setMovieProvider] = useState([]);
     const [movies, setMovies] = useState([]);
+    const [watchlists, setWatchlists] = useState([]);
+    const isLogin = storage.getItem("isLogin") ?? "false";
     const fetchmovies = async () => {
         let allTrendings = fetchAllMovie(`${trendingsPath({ page: 1 })}`);
         let populars = fetchAllMovie(`${popularPath({ page: 1 })}`);
@@ -57,6 +46,43 @@ const Home = () => {
             toast.error(`${error}`)
         }
     }
+    const addWatchList = async ({ movie }) => {
+        let save_movie = server_provider({ path: watchlistsPath, method: 'POST', body: movie_format({ movie: movie, username: storage.getItem("userN") !== null ? storage.getItem("userN") : "A" }) });
+        if (((await save_movie).status) === 200) {
+            console.log((await save_movie).data)
+            let responses = (await save_movie).data;
+            switch (responses.status) {
+                case 200:
+                    toast.success(responses.message);
+                    getWatchlists();
+                    break;
+                default:
+                    toast.error(`${responses.message}`);
+                    break;
+            }
+        }
+    }
+    const getWatchlists = async () => {
+        const username =storage.getItem("userN") !== null ? storage.getItem("userN") : "A";
+        const get_movies = server_provider({ 
+            path: `${watchlistsPath}?id=${username}`, 
+            method: 'GET', 
+            body: JSON.stringify({
+                id:username
+            })
+        });
+        if (((await get_movies).status) === 200) {
+            let responses = (await get_movies).data;
+            switch (responses.status) {
+                case 200:
+                    setWatchlists(responses.results)
+                    break;
+                default:
+                    toast.error(`${responses.message}`);
+                    break;
+            }
+        }
+    }
     const searchMovie = async (title) => {
         try {
 
@@ -71,10 +97,22 @@ const Home = () => {
             toast.error(error)
         }
     }
+    const handleSignOut = async () => {
+        try {
+          await signOut(auth);
+          storage.clear();
+          toast.success("logout success")
+          window.location.href = "";
+        } catch (error) {
+          console.error("Error signing out", error);
+        }
+      };
     useEffect(() => {
         Aos.init()
         fetchmovies()
-    }, [])
+        getWatchlists()
+    }, []);
+
     const tooltip = (
         <Tooltip className='tooltip_'>
             <div className="container">
@@ -93,8 +131,6 @@ const Home = () => {
                         <p><span><Wifi /></span> Search you're Movies</p>
                     </div>
                 }
-
-
             </div>
         </Tooltip>
     );
@@ -110,7 +146,7 @@ const Home = () => {
                     backgroundColor: 'var(--secondary)'
                 }} />
                 {
-                    movies === undefined && movies?.length > 0 ? movies.map((item, key) =>
+                    watchlists !== undefined && watchlists?.length > 0 ? watchlists.map((item, key) =>
                         <Link className='search_movie' key={key}>
                             <img src={`${baseUrlImage}${item.poster_path}`} alt="" />
                             <div className="content">
@@ -121,7 +157,7 @@ const Home = () => {
                             </div>
                         </Link>
                     ) : <div className="empty">
-                        <p><span><BookmarkFill /></span> Sign Up to Add your watchlists</p>
+                        <p><span><BookmarkFill /></span> {isLogin === "true" ? "Start to add your watchlists" : "Sign Up to Add your watchlists"}</p>
                     </div>
                 }
             </div>
@@ -130,22 +166,6 @@ const Home = () => {
     return (
         <div className='home_page'>
             <Loading />
-            {/* <div className="registration">
-                <div className="sign_card">
-                    <div className="">
-                        <h4>Welcome</h4>
-                        <Form model={model}>
-                            <TextField name="name" placeholder="Username" />
-                            <TextField name="email" placeholder="Email" />
-                            <ButtonToolbar>
-                                <Button appearance="primary" type="submit">
-                                    Submit
-                                </Button>
-                            </ButtonToolbar>
-                        </Form>
-                    </div>
-                </div>
-            </div> */}
             {
                 bannerMovie !== undefined && bannerMovie?.length > 0 ?
                     <div className="grid">
@@ -167,14 +187,26 @@ const Home = () => {
                                         <BookmarkFill />
                                     </button>
                                 </Whisper>
-                                <div className="avatar">
-                                    <img src={bannerImage} alt="" />
-                                    <div className="shadow_over"></div>
-                                </div>
+
+
+                                {
+                                    isLogin === "true" ?
+                                        <Whisper placement='bottom' controlId="control-id-click" trigger="click" speaker={<Tooltip>
+                                            <button className='trans' onClick={handleSignOut}>Sign Out</button>
+                                        </Tooltip>}>
+                                            <div className="avatar">
+                                            <div className="shadow_over">
+                                                <h1>{(storage.getItem("userN") !== null ? storage.getItem("userN").slice(0, 1) : "A").toUpperCase()}</h1>
+                                            </div>
+                                        </div>
+                                        </Whisper> : <Link className="login" to={signIn}>
+                                            Sign Up
+                                        </Link>
+                                }
 
                             </div>
                             <div className="">
-                                <Carousel className='cc' autoplay autoplayInterval={5900}>
+                                <Carousel className='cc' autoplay autoplayInterval={9000}>
                                     {
                                         bannerMovie.map((item, key) => <div className="banner" style={{
                                             backgroundImage: `url(${baseUrlImage}${item.backdrop_path})`
@@ -196,7 +228,7 @@ const Home = () => {
 
                                                         <div className="flex">
                                                             <button className='watch animate__animated animate__fadeInUp  animate__delay-3s' style={{ position: 'relative', zIndex: 2 }}>Watch Now</button>
-                                                            <button className='watch animate__animated animate__fadeInUp  animate__delay-3s' style={{ position: 'relative', zIndex: 2 }}>Add to Watchlist</button>
+                                                            <button className='watch animate__animated animate__fadeInUp  animate__delay-3s' style={{ position: 'relative', zIndex: 2 }} onClick={() => addWatchList({ movie: item })}>Add to Watchlist</button>
                                                         </div>
                                                     </Container>
                                                 </div>

@@ -5,12 +5,13 @@ import Stack from '@mui/material/Stack';
 import AppTheme from '../../components/AppTheme';
 import Content from '../../components/Content';
 import SignInCard from '../../components/SignInCard';
+import SignUpCard from '../../components/SignUp';
 
 export default function SignInSide(props: { disableCustomTheme?: boolean }) {
+  const [open, setOpen] = React.useState(true);
   return (
     <AppTheme {...props}>
       <CssBaseline enableColorScheme />
-      {/* <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem' }} /> */}
       <Stack
         direction="column"
         component="main"
@@ -59,7 +60,10 @@ export default function SignInSide(props: { disableCustomTheme?: boolean }) {
             }}
           >
             <Content />
-            <SignInCard />
+            {
+              open?
+              <SignInCard setOpens={setOpen}/>:<SignUpCard setOpens={setOpen}/>
+            }
           </Stack>
         </Stack>
       </Stack>
