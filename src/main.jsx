@@ -4,9 +4,12 @@ import './index.css'
 import App from './App.jsx'
 import 'rsuite/dist/rsuite.min.css';
 import 'animate.css'
+import { StyledEngineProvider } from '@mui/material/styles';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <App />
+    <StyledEngineProvider injectFirst>
+      <App />
+    </StyledEngineProvider>
   </StrictMode>,
 )

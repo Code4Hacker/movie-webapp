@@ -2,6 +2,7 @@
 :root{
   --primary:black ;
   --secondary:rgb(193, 35, 35);
+  --secondary2:hsla(0, 69%, 45%, 0.246);
   --cream:rgb(255, 255, 255);
   --slim_grey:rgb(70, 70, 70);
   --slim_grey2:rgb(104, 104, 104);

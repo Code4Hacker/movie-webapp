@@ -1,0 +1,20 @@
+.signing{
+    *{
+        font-family: poppins;
+        input[type='checkbox'],.css-m2yy09-MuiButtonBase-root-MuiCheckbox-root.Mui-checked:hover,.css-m2yy09-MuiButtonBase-root-MuiCheckbox-root.Mui-checked{
+            background: var(--secondary2) !important;
+            fill: var(--secondary2) !important;
+            border-color: var(--secondary2);
+        }
+        .MuiFormControl-root.css-1iw3t7y-MuiFormControl-root{
+            div > div.Mui-focused{
+                border-color: var(--slim_grey2) !important;
+            }
+        }
+        .MuiLink-underlineAlways{
+            color: var(--slim_grey2) !important;
+        }
+
+    }
+    
+}
