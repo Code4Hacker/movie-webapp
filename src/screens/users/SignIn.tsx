@@ -1,7 +1,6 @@
 import * as React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Stack from '@mui/material/Stack';
-// import ColorModeSelect from './theme/ColorModeSelect';
 import AppTheme from '../../components/AppTheme';
 import Content from '../../components/Content';
 import SignInCard from '../../components/SignInCard';

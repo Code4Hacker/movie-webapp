@@ -7,47 +7,15 @@ import { Carousel, Container, Divider, Tooltip, Whisper } from 'rsuite'
 import Aos from 'aos'
 import toast from 'react-hot-toast'
 import { movieProviderPath, popularPath, searchPath, topratedPath, trendingsPath, upcomingPath } from '../../../statics/urls'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { fetchAllMovie } from '../../../provider/requests/fetchallmovie'
 
 
 const MovieTrailer = () => {
-    const [bannerMovie, setBannerMovie] = useState([]);
-    const [popular, setPopular] = useState([]);
-    const [upcomings, setUpcomings] = useState([]);
-    const [toprateds, setToprateds] = useState([]);
-    const [movieprovider, setMovieProvider] = useState([]);
+    const [bannerMovie, setBannerMovie] = useState(JSON.parse(window.localStorage.getItem("contents"))??{});
     const [movies, setMovies] = useState([]);
-    const fetchmovies = async () => {
-        try {
-            let allTrendings = fetchAllMovie(`${trendingsPath({
-                page: 1
-            })}`);
-            let populars = fetchAllMovie(`${popularPath({
-                page: 1
-            })}`);
-            let upcomings = fetchAllMovie(`${upcomingPath({
-                page: 1
-            })}`);
-            let toprated = fetchAllMovie(`${topratedPath({
-                page: 1
-            })}`);
-            let movieProvider = fetchAllMovie(`${movieProviderPath}`);
-            if ((await allTrendings).status === 200) {
-                setBannerMovie((await allTrendings).data.results.splice(0, 5));
-                setPopular((await populars).data.results.splice(0, 8));
-                setToprateds((await toprated).data.results.splice(0, 8));
-                setUpcomings((await upcomings).data.results.splice(0, 8));
-                setMovieProvider((await movieProvider).data.results);
-                toast.success("Great all data are Clear");
 
-            } else {
-                toast.error("something went wrong");
-            }
-        } catch (error) {
-            toast.error(error)
-        }
-    }
+    
     const searchMovie = async (title) => {
         try {
             let movies = fetchAllMovie(`${searchPath({
@@ -63,8 +31,8 @@ const MovieTrailer = () => {
     }
     useEffect(() => {
         Aos.init()
-        fetchmovies()
-    }, [])
+    }, []);
+    const params = useParams();
     const tooltip = (
         <Tooltip className='tooltip_'>
             <div className="container">
@@ -148,17 +116,15 @@ const MovieTrailer = () => {
                         </div>
 
                     </div>
-                    <div className="">
-                        <Carousel className='watch_container' autoplay autoplayInterval={5900}>
-                            {
-                                bannerMovie.map((item, key) => <div className="banner" style={{
-                                    backgroundImage: `url(${baseUrlImage}${item.backdrop_path})`
-                                }} key={key}>
+                    <div className="watch_container">
+                    <div className="banner" style={{
+                                    backgroundImage: `url(${baseUrlImage}${bannerMovie.backdrop_path})`
+                                }} >
                                     <div className="shadow_over">
                                         <div className="contents">
                                             <Container>
-                                                <h1 className='animate__animated animate__fadeInUp'>{item.title}</h1>
-                                                <p className='animate__animated animate__fadeInUp  animate__delay-1s'>{item.overview}</p>
+                                                <h1 className='animate__animated animate__fadeInUp'>{bannerMovie.title}</h1>
+                                                <p className='animate__animated animate__fadeInUp  animate__delay-1s'>{bannerMovie.overview}</p>
                                                 <div className="animate__animated animate__fadeInUp  animate__delay-2s" style={{
                                                     display: 'flex',
                                                     textAlign: "center",
@@ -166,7 +132,7 @@ const MovieTrailer = () => {
                                                     gap: '10px'
                                                 }}>
                                                     <img src={imdbImage} alt="" width={50} />
-                                                    <span style={{ fontWeight: 900 }}>{item.vote_average}</span>
+                                                    <span style={{ fontWeight: 900 }}>{bannerMovie.vote_average}</span>
                                                 </div>
 
                                                 <div className="flex">
@@ -176,35 +142,11 @@ const MovieTrailer = () => {
                                             </Container>
                                         </div>
                                     </div>
-                                </div>)
-                            }
-                        </Carousel>
+                                </div>
                     </div>
                     <div className="container">
                         <h4 className='bolder'>Upcoming Movies</h4>
-                        <div className="flex_movie m_12">
-                            {
-                                upcomings.map((item, key) =>
-                                    <MovieCard item={item} key={key} />
-                                )
-                            }
-                        </div>
-                        <h4 className='bolder pt_32'>Top Rated Movies</h4>
-                        <div className="flex_movie m_12">
-                            {
-                                toprateds.map((item, key) =>
-                                    <MovieCard item={item} key={key} />
-                                )
-                            }
-                        </div>
-                        <h4 className='bolder pt_32'>Most Populars</h4>
-                        <div className="flex_movie m_12">
-                            {
-                                popular.map((item, key) =>
-                                    <MovieCard item={item} key={key} />
-                                )
-                            }
-                        </div>
+                        <MovieCard item={bannerMovie}/>
                     </div>
                 </div>
             </div>

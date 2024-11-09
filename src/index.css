@@ -1,6 +1,6 @@
 @import url(./styles/styles.scss);
 :root{
-  --primary:black ;
+  --primary:rgb(23, 23, 29) ;
   --secondary:rgb(193, 35, 35);
   --secondary2:hsla(0, 69%, 45%, 0.246);
   --cream:rgb(255, 255, 255);

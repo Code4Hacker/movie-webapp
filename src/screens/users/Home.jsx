@@ -7,14 +7,15 @@ import { Carousel, Container, Divider, Tooltip, Whisper, Form, Schema } from 'rs
 import Aos from 'aos'
 import toast from 'react-hot-toast'
 import { movieProviderPath, popularPath, searchPath, topratedPath, trendingsPath, upcomingPath, watchlistsPath } from '../../statics/urls'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Marquee from 'react-fast-marquee'
 import { fetchAllMovie } from '../../provider/requests/fetchallmovie'
-import { signIn } from '../../statics/paths'
+import { movieslugId, signIn } from '../../statics/paths'
 import { server_provider } from '../../provider/requests/hitmydb'
 import { movie_format } from '../../components/jsonbuilder'
 import { auth } from '../../firebaseConfig'
 import { signOut } from 'firebase/auth'
+import MovieCard2 from '../../components/MovieCard2'
 const Home = () => {
     const storage = window.localStorage;
     const [bannerMovie, setBannerMovie] = useState([]);
@@ -112,7 +113,11 @@ const Home = () => {
         fetchmovies()
         getWatchlists()
     }, []);
-
+    const nav = useNavigate();
+    const slugdata = ({contents}) => {
+        storage.setItem("contents", JSON.stringify(contents));
+        nav(movieslugId({id:contents.id}));
+    }
     const tooltip = (
         <Tooltip className='tooltip_'>
             <div className="container">
@@ -187,8 +192,6 @@ const Home = () => {
                                         <BookmarkFill />
                                     </button>
                                 </Whisper>
-
-
                                 {
                                     isLogin === "true" ?
                                         <Whisper placement='bottom' controlId="control-id-click" trigger="click" speaker={<Tooltip>
@@ -227,7 +230,7 @@ const Home = () => {
                                                         </div>
 
                                                         <div className="flex">
-                                                            <button className='watch animate__animated animate__fadeInUp  animate__delay-3s' style={{ position: 'relative', zIndex: 2 }}>Watch Now</button>
+                                                            <button className='watch animate__animated animate__fadeInUp  animate__delay-3s' style={{ position: 'relative', zIndex: 2 }}  onClick={() => slugdata({contents: item})}>Watch Now</button>
                                                             <button className='watch animate__animated animate__fadeInUp  animate__delay-3s' style={{ position: 'relative', zIndex: 2 }} onClick={() => addWatchList({ movie: item })}>Add to Watchlist</button>
                                                         </div>
                                                     </Container>
@@ -238,7 +241,7 @@ const Home = () => {
                                 </Carousel>
                             </div>
                             <div className="container">
-                                <Marquee className="flex_cards" loop={0} gradient={true} gradientColor='black' gradientWidth={320}>
+                                <Marquee className="flex_cards" loop={0} gradient={true} gradientColor='rgb(23, 23, 29)' gradientWidth={320}>
                                     {
                                         movieprovider.map((item, key) =>
                                             <div key={key}>
@@ -260,10 +263,28 @@ const Home = () => {
                                     }
                                 </div>
                                 <h4 className='bolder pt_32'>Top Rated Movies</h4>
-                                <div className="flex_movie m_12">
+                                {/* <div className="container">
+                                <Marquee className="flex_cards" loop={0} gradient={true} gradientColor='black' gradientWidth={320} direction='right'>
+                                {
+                                        toprateds.map((item, key) =>
+                                            <MovieCard2 item={item} key={key} />
+                                        )
+                                    }
+                                </Marquee>
+                                <Marquee className="flex_cards" loop={0} gradient={true} gradientColor='black' gradientWidth={320} direction='left'>
+                                {
+                                        toprateds.map((item, key) =>
+                                            <MovieCard2 item={item} key={key} />
+                                        )
+                                    }
+                                </Marquee>
+                            </div> */}
+                                <div className="flex_movie m_12" style={{
+                                    overflow:'hidden'
+                                }}>
                                     {
                                         toprateds.map((item, key) =>
-                                            <MovieCard item={item} key={key} />
+                                            <MovieCard2 item={item} key={key} />
                                         )
                                     }
                                 </div>

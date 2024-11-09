@@ -143,7 +143,35 @@
     .search_movie:hover{
         background-color: var(--cream_opc);
     }
+}
+.movie_card2{
+    margin: 10px 10px 10px 0px;
+    display: flex;
+    width: 100%;
+    position: relative;
+    > *:nth-child(1){
+        background-size: cover;
+        width: 80px;
+        height: 110px;
+        border: 2px solid var(--slim_grey2);
+        border-radius: 8px;
+        margin-right: 8px;
+        
 
+    }
+    >*:nth-child(2){
+        top: 100%;
+        position: relative;
+        transform: translateY(-50%);
+        h6{
+            font-size: small !important;
+            text-wrap: nowrap;
+            // color: var(--secondary) !important;
+        }
+        span{
+            font-size: x-small !important;
+        }
+    }
 }
 .trans{
     text-align: center;
@@ -446,6 +474,8 @@
     position: relative;
     overflow-x: scroll;
     display: flex;
+    margin: 10px 0px 10px 0px;
+    padding-bottom: 10px;
     // justify-content: center;
     width: 100%;
     // flex-wrap: wrap;
@@ -468,15 +498,62 @@
             background-color: rgba(0, 0, 0, 0.396);
 
             .contents {
+                transition: 0.3s ease-in-out;
                 position: relative;
                 top: 98%;
+                opacity: 1;
                 transform: translateY(-98%);
                 padding: 10px;
-
                 h6 {
                     font-size: small;
                 }
+                p{
+                    color: rgb(145, 145, 145);
+                }
             }
+            
+        }
+        .shadow .content2{
+            position: absolute;
+            top: 0px;
+            z-index: 2;
+            top: -300px;
+            left: 0px;
+            text-align: center;
+            // display: grid;
+            width: 100%;
+            max-height: 200px;
+            overflow-x: hidden;
+            overflow-y: scroll;
+            transition: 0.3s ease-in-out;
+            h1{
+                font-size: 1.5em;
+                margin: -10px !important;
+                padding: -10px !important;
+            }
+            
+        }
+       .shadow:hover .content2{
+            position: absolute;
+            top: 10px;
+            z-index: 2;
+            left: 0px;
+            text-align: center;
+            width: 94%;
+            background-color: rgba(255, 255, 255, 0.114);
+            left: 50%;
+            transform: translateX(-50%);
+            max-height: 200px;
+            overflow-x: hidden;
+            overflow-y: scroll;
+            backdrop-filter: blur(4px);
+            border-radius: 8px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            p{
+                font-weight: 900;
+            }
+            
         }
 
         .shadow:hover {
@@ -492,8 +569,8 @@
                 transform: translateY(-98%);
                 padding: 10px;
 
-                h6 {
-                    font-size: small;
+                h6,p {
+                    opacity: 0;
                 }
             }
         }
