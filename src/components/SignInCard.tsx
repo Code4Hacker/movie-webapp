@@ -58,6 +58,8 @@ export default function SignInCard({ setOpens }) {
         case 200:
           toast.success(responses.message);
           const storage = window.localStorage;
+          console.log(responses.data)
+          storage.setItem("thetoken", responses.token)
           storage.setItem("isLogin", "true");
           storage.setItem("userN", `${data.get('email')}`);
           nav(home);
@@ -112,6 +114,7 @@ export default function SignInCard({ setOpens }) {
             toast.success(`you've sign in as ${result.user.email}`);
             const storage = window.localStorage;
             storage.setItem("isLogin", "true");
+            storage.setItem("thetoken", responses.token);
             storage.setItem("userN", `${result.user.email}`);
             nav(home);
             break;

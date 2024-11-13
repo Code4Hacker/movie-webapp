@@ -1,11 +1,16 @@
 import React from 'react'
 import { BrowserSafari, CameraVideo, People, PieChart, Watch } from "react-bootstrap-icons";
-import { coming, home } from '../statics/paths';
+import { coming, dashboard, home, trendings } from '../statics/paths';
 import { Link, useLocation } from 'react-router-dom';
 import { Divider } from 'rsuite';
 const SiderBar = () => {
     const {pathname} = useLocation();
     const sidelist = [
+        window.localStorage.getItem("userN") ?{
+            icon:<People/>,
+            title:"Dashboard",
+            tag:dashboard
+        }:"",
         {
             icon:<BrowserSafari/>,
             title:"Browse Movies",
@@ -19,7 +24,7 @@ const SiderBar = () => {
         {
             icon:<PieChart/>,
             title:"Tredings",
-            tag:"people"
+            tag:trendings
         },
         {
             icon:<CameraVideo/>,
@@ -37,10 +42,10 @@ const SiderBar = () => {
             icon:<People/>,
             title:"Followings",
             tag:coming
-        }
+        },
     ];
     return (
-        <div className='sidebar'>
+        <div className='sidebar lefted'>
             <div className="container">
                 <div className="headline">
                     <h5>
@@ -53,14 +58,14 @@ const SiderBar = () => {
                     <br />
                     <br />
                     {
-                        sidelist.map((item, key) => <button className={`button ${pathname === item.tag? 'active':''}`} key={key}><Link ><span>{item.icon}</span> <span>{item.title}</span></Link></button>)
+                        sidelist.map((item, key) => <button className={`button ${pathname === item.tag? 'active':''}`} key={key}><Link to={item.tag}><span>{item.icon}</span> <span>{item.title}</span></Link></button>)
                     }
                     <Divider className='divider'/>
                     <span>Quick Actions</span>
                     <br />
                     <br />
                     {
-                        sidelist2.map((item, key) => <button className={`button ${pathname === item.tag? 'active':''}`} key={key}><Link ><span>{item.icon}</span> <span>{item.title}</span></Link></button>)
+                        sidelist2.map((item, key) => <button className={`button ${pathname === item.tag? 'active':''}`} key={key}><Link to={item.tag}><span>{item.icon}</span> <span>{item.title}</span></Link></button>)
                     }
                     <Divider className='divider'/>
                 </div>

@@ -5,3 +5,4 @@ export const movieslug = "/watch_slug/:id"
 export const movieslugId = ({id}) => `/watch_slug/${id}`;
 export const signIn = "/sign_in"
 export const signUp = "/sign_up"
+export const dashboard = "/dashboard"

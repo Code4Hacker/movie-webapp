@@ -2,38 +2,9 @@ import React, { useEffect } from 'react'
 import { baseUrlImage } from '../provider/baseURLs'
 import { imdbImage } from '../assets'
 import Aos from 'aos'
-import { server_provider } from '../provider/requests/hitmydb'
-import { watchlistsPath } from '../statics/urls'
-import { movie_format } from './jsonbuilder'
-import toast from 'react-hot-toast'
-import genre from "../raws/genres.json"
-const MovieCard2 = ({ item }) => {
+import { getGenre } from '../provider/requests/hitmydb'
+const MovieCard2 = ({ item, setWatchlists }) => {
     Aos.init();
-    let storage = window.localStorage;
-    const addWatchList = async ({ movie }) => {
-        let save_movie = server_provider({ path: watchlistsPath, method: 'POST', body: movie_format({ movie: movie, username: storage.getItem("userN") !== null ? storage.getItem("userN") : "A" }) });
-        if (((await save_movie).status) === 200) {
-            console.log((await save_movie).data)
-            let responses = (await save_movie).data;
-            switch (responses.status) {
-                case 200:
-                    toast.success(responses.message);
-                    getWatchlists();
-                    break;
-                default:
-                    console.log(responses.message === "undefined");
-                    toast.error(`${(responses.message) === "undefined" ? "Please Login first to add watchlist" : responses.message}`);
-                    break;
-            }
-        }
-    }
-    const getGenre = ({ id }) => {
-        for (let i = 0; i < genre.genres.length; i++) {
-            if (id.toString() === genre.genres[i].id.toString()) {
-                return genre.genres[i].name
-            }
-        }
-    }
     return (
         <div className='movie_card2'>
             <div className='' style={{
@@ -76,7 +47,7 @@ const MovieCard2 = ({ item }) => {
                 </div>
                 <div className="content2">
                     {
-                        item.genre_ids.map((item, key) => <span>{getGenre({ id: item })}.</span>)
+                        item.genre_ids.map((item, key) => <span key={key}>{getGenre({ id: item })}.</span>)
                     }
                 </div>
             </div>

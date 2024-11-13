@@ -1,0 +1,151 @@
+.home_page.dashboard {
+    overflow-x: hidden;
+    .container.shortlists {
+        margin-top: 80px;
+        display: grid;
+        grid-template-columns: 300px 65vw;
+        >*:nth-child(1) {
+            background-color: var(--slim_grey2);
+            padding: 10px;
+            color: var(--primary);
+            width: 300px;
+            display: grid;
+            padding-top: 24px;
+            height: 100px;
+            text-align: center;
+            border-radius: 24px;
+
+            h1 {
+                font-weight: 900;
+                font-size: 4em;
+            }
+        }
+        >*:nth-child(2) {
+            margin-left: 24px;
+            color: var(--primary);
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%);
+            display: grid;
+            height: 100px;
+            text-align: center;
+            border-radius: 24px;
+            overflow-y: hidden;
+            display: flex;
+            h1 {
+                font-weight: 900;
+            }
+            img {
+                width: 90px;
+            }
+        }
+    }
+    .prev_card {
+        position: relative;
+        display: flex;
+        width: 100%;
+        overflow-x: scroll;
+        margin-top: 24px;
+
+        .search_movie {
+            padding: 10px;
+        }
+        img {
+            width: 300px;
+            border-radius: 24px;
+        }
+    }
+    .chart_container {
+        margin: 50px;
+        border-radius: 24px;
+        overflow: hidden;
+        background-color: var(--cream_opc);
+
+        .apexcharts-tooltip.apexcharts-theme-light,
+        .apexcharts-menu-open>* {
+
+            color: var(--primary) !important;
+        }
+        .apexcharts-text {
+            fill: var(--cream) !important;
+
+        }
+    }
+}
+.container.center {
+    text-align: center;
+
+}
+.profile {
+    right: 10px !important;
+    // * {
+    //     display: grid;
+    // }
+    input {
+        background: none;
+        padding: 10px;
+        border-radius: 8px;
+        border: none;
+        margin-top: 4px;
+        max-width: 150px;
+        background-color: var(--cream_opc);
+
+    }
+
+    .submitting {
+        margin-top: 10px;
+        background-color: var(--cream_opc);
+        border-radius: 8px;
+        transition: 1s ease-in-out;
+        padding: 10px;
+    }
+
+    .submitting:hover {
+        background-color: var(--secondary);
+        padding: 10px;
+    }
+}
+
+// .apexcharts-series > path:nth-child(1){
+//     fill: var(--secondary) !important;
+//     border-color: var(--secondary) !important;
+//     background: linear-gradient(90deg, black,red, green) !important;
+
+// }
+.suggestions {
+    padding: 12px;
+    margin: 10px;
+    min-width: 120px;
+    transition: .5s ease-in-out;
+    color: var(--secondary);
+    background: none;
+    z-index: 4;
+    position: relative;
+    border-radius: 50px;
+    border: 1px solid var(--secondary);
+}
+
+.suggestions:hover {
+    padding: 12px;
+    margin: 10px;
+    min-width: 120px;
+    z-index: 4;
+    position: relative;
+    transition: .5s ease-in-out;
+    color: var(--secondary);
+    background: none;
+    border-radius: 50px;
+    border: 1px solid var(--secondary);
+}
+
+.clicked {
+    padding: 12px;
+    margin: 10px;
+    min-width: 120px;
+    transition: .5s ease-in-out;
+    color: var(--cream);
+    background: none;
+    border-radius: 50px;
+    background-color: var(--secondary) !important;
+    border: 1px solid var(--secondary) !important;
+}

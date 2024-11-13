@@ -7,4 +7,6 @@ export const searchPath = ({query, page}) => `search/movie?query=${query}&includ
 
 export const loginPath = "signing/sign_in_update.php";
 export const signUpPath = "signing/sign_up.php";
+export const updatePath = "signing/update_password.php";
 export const watchlistsPath = "watchlists/watchlist.php";
+export const watchlistGraphPath = "watchlists/watchlist_graph.php";

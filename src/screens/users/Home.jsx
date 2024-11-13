@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import { Loading, MovieCard, SiderBar } from '../../components'
-import { bannerImage, imdbImage } from '../../assets'
+import { Loading, MovieCard, SiderBar, TopLists } from '../../components'
+import {  imdbImage } from '../../assets'
 import { BookmarkFill, Search, Wifi } from 'react-bootstrap-icons'
 import { baseUrlImage } from '../../provider/baseURLs'
-import { Carousel, Container, Divider, Tooltip, Whisper, Form, Schema } from 'rsuite'
+import { Carousel, Container, Divider, Tooltip, Whisper} from 'rsuite'
 import Aos from 'aos'
 import toast from 'react-hot-toast'
-import { movieProviderPath, popularPath, searchPath, topratedPath, trendingsPath, upcomingPath, watchlistsPath } from '../../statics/urls'
+import { movieProviderPath, popularPath, searchPath, topratedPath, trendingsPath, upcomingPath } from '../../statics/urls'
 import { Link, useNavigate } from 'react-router-dom'
 import Marquee from 'react-fast-marquee'
 import { fetchAllMovie } from '../../provider/requests/fetchallmovie'
-import { movieslugId, signIn } from '../../statics/paths'
-import { server_provider } from '../../provider/requests/hitmydb'
-import { movie_format } from '../../components/jsonbuilder'
+import { coming, movieslugId, signIn } from '../../statics/paths'
+import { addWatchList, getWatchlists} from '../../provider/requests/hitmydb'
 import { auth } from '../../firebaseConfig'
 import { signOut } from 'firebase/auth'
 import MovieCard2 from '../../components/MovieCard2'
@@ -39,49 +38,11 @@ const Home = () => {
                 setToprateds((await toprated).data.results.splice(0, 8));
                 setUpcomings((await upcomings).data.results.splice(0, 8));
                 setMovieProvider((await movieProvider).data.results);
-                toast.success("Great all data are Clear");
             } else {
                 toast.error("something went wrong");
             }
         } catch (error) {
             toast.error(`${error}`)
-        }
-    }
-    const addWatchList = async ({ movie }) => {
-        let save_movie = server_provider({ path: watchlistsPath, method: 'POST', body: movie_format({ movie: movie, username: storage.getItem("userN") !== null ? storage.getItem("userN") : "A" }) });
-        if (((await save_movie).status) === 200) {
-            console.log((await save_movie).data)
-            let responses = (await save_movie).data;
-            switch (responses.status) {
-                case 200:
-                    toast.success(responses.message);
-                    getWatchlists();
-                    break;
-                default:
-                    toast.error(`${responses.message}`);
-                    break;
-            }
-        }
-    }
-    const getWatchlists = async () => {
-        const username =storage.getItem("userN") !== null ? storage.getItem("userN") : "A";
-        const get_movies = server_provider({ 
-            path: `${watchlistsPath}?id=${username}`, 
-            method: 'GET', 
-            body: JSON.stringify({
-                id:username
-            })
-        });
-        if (((await get_movies).status) === 200) {
-            let responses = (await get_movies).data;
-            switch (responses.status) {
-                case 200:
-                    setWatchlists(responses.results)
-                    break;
-                default:
-                    toast.error(`${responses.message}`);
-                    break;
-            }
         }
     }
     const searchMovie = async (title) => {
@@ -111,7 +72,7 @@ const Home = () => {
     useEffect(() => {
         Aos.init()
         fetchmovies()
-        getWatchlists()
+        getWatchlists({setWatchlists:setWatchlists})
     }, []);
     const nav = useNavigate();
     const slugdata = ({contents}) => {
@@ -179,6 +140,11 @@ const Home = () => {
                         </div>
                         <div className="grid_items">
                             <div className="topnav">
+                                <ul>
+                                   <TopLists/>
+                                </ul>
+                                <div className="flex">
+
                                 <Whisper
                                     placement="bottom" controlId="control-id-click" trigger="click" speaker={tooltip}>
                                     <div className="input">
@@ -207,6 +173,7 @@ const Home = () => {
                                         </Link>
                                 }
 
+                                </div>
                             </div>
                             <div className="">
                                 <Carousel className='cc' autoplay autoplayInterval={9000}>
@@ -218,7 +185,7 @@ const Home = () => {
                                                 <div className="contents">
                                                     <Container>
                                                         <h1 className='animate__animated animate__fadeInUp'>{item.title}</h1>
-                                                        <p className='animate__animated animate__fadeInUp  animate__delay-1s'>{item.overview}</p>
+                                                        <p className='animate__animated animate__fadeInUp  animate__delay-1s'>{item.overview?.length > 475 ? item.overview.substring(0, 475)+"...":item.overview}</p>
                                                         <div className="animate__animated animate__fadeInUp  animate__delay-2s" style={{
                                                             display: 'flex',
                                                             textAlign: "center",
@@ -231,7 +198,7 @@ const Home = () => {
 
                                                         <div className="flex">
                                                             <button className='watch animate__animated animate__fadeInUp  animate__delay-3s' style={{ position: 'relative', zIndex: 2 }}  onClick={() => slugdata({contents: item})}>Watch Now</button>
-                                                            <button className='watch animate__animated animate__fadeInUp  animate__delay-3s' style={{ position: 'relative', zIndex: 2 }} onClick={() => addWatchList({ movie: item })}>Add to Watchlist</button>
+                                                            <button className='watch animate__animated animate__fadeInUp  animate__delay-3s' style={{ position: 'relative', zIndex: 2 }} onClick={() => addWatchList({ movie: item, setWatchlists:setWatchlists })}>Add to Watchlist</button>
                                                         </div>
                                                     </Container>
                                                 </div>
@@ -254,11 +221,15 @@ const Home = () => {
                                 </Marquee>
                             </div>
                             <div className="container">
+                                <div className="space_btn">
+
                                 <h4 className='bolder'>Upcoming Movies</h4>
+                                <Link className='button' to={coming}>View All</Link>
+                                </div>
                                 <div className="flex_movie m_12">
                                     {
                                         upcomings.map((item, key) =>
-                                            <MovieCard item={item} key={key} />
+                                            <MovieCard item={item} setWatchlists={setWatchlists} key={key} />
                                         )
                                     }
                                 </div>
@@ -288,11 +259,15 @@ const Home = () => {
                                         )
                                     }
                                 </div>
-                                <h4 className='bolder pt_32'>Most Populars</h4>
+                                <div className="space_btn">
+
+                                <h4 className='bolder'>Most Populars</h4>
+                                <Link className='button' to={coming}>View All</Link>
+                                </div>
                                 <div className="flex_movie m_12">
                                     {
                                         popular.map((item, key) =>
-                                            <MovieCard item={item} key={key} />
+                                            <MovieCard item={item} setWatchlists={setWatchlists} key={key} />
                                         )
                                     }
                                 </div>

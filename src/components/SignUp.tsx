@@ -179,7 +179,7 @@ export default function SignUpCard({setOpens}) {
           />
         </FormControl>
         <Button type="submit" fullWidth variant="contained" onClick={validateInputs}>
-          Sign in
+          Sign up
         </Button>
         <Typography sx={{ textAlign: 'center' }}>
           I have an account?{' '}
