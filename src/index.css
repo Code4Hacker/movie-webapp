@@ -25,3 +25,14 @@
   background-color: var(--secondary);
   border-radius: 50px;
 }
+.linear_text{
+  color: transparent;
+  background:linear-gradient(90deg, var(--secondary), var(--cream), var(--secondary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  font-weight: 900 !important;
+}
+::selection{
+  color: var(--primary);
+  background-color: var(--cream);
+}

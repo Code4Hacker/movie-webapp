@@ -1,23 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import { Loading, MovieCard, SiderBar, TopLists } from '../../components'
-import { bannerImage, imdbImage } from '../../assets'
 import { BookmarkFill, PenFill, Search, Wifi } from 'react-bootstrap-icons'
 import { baseUrlImage } from '../../provider/baseURLs'
-import { Carousel, Container, Divider, Tooltip, Whisper, Form, Schema } from 'rsuite'
+import { Divider, Tooltip, Whisper } from 'rsuite'
 import Aos from 'aos'
 import toast from 'react-hot-toast'
-import { movieProviderPath, popularPath, searchPath, topratedPath, trendingsPath, upcomingPath, watchlistsPath } from '../../statics/urls'
+import { movieProviderPath,  searchPath, trendingsPath } from '../../statics/urls'
 import { Link, useNavigate } from 'react-router-dom'
 import Marquee from 'react-fast-marquee'
 import { fetchAllMovie } from '../../provider/requests/fetchallmovie'
 import { movieslugId, signIn } from '../../statics/paths'
-import { addWatchList, getWatchlists, getWatchlistsGraph, handleUpdate, server_provider } from '../../provider/requests/hitmydb'
-import { movie_format } from '../../components/jsonbuilder'
+import { getWatchlists, getWatchlistsGraph, handleUpdate } from '../../provider/requests/hitmydb'
 import { auth } from '../../firebaseConfig'
 import { signOut } from 'firebase/auth'
 import genre from "../../raws/genres.json";
 import ReactApexChart from 'react-apexcharts'
-import jQuery from 'jquery'
 const Dashboard = () => {
     const storage = window.localStorage;
     const [bannerMovie, setBannerMovie] = useState([]);
@@ -223,7 +220,7 @@ const Dashboard = () => {
                             <div className="container center">
                                 <h1 style={{
                                     marginBottom: '24px'
-                                }}>CUSTOMIZE YOUR GENRE</h1>
+                                }}><span className='linear_text'>CUSTOMIZE YOUR GENRE</span></h1>
                                 {
                                     genre.genres.map((item, key) => <button key={key} className='suggestions' onClick={(e) => {
                                         e.target.className="clicked"

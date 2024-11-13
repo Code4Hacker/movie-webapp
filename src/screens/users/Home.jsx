@@ -234,22 +234,6 @@ const Home = () => {
                                     }
                                 </div>
                                 <h4 className='bolder pt_32'>Top Rated Movies</h4>
-                                {/* <div className="container">
-                                <Marquee className="flex_cards" loop={0} gradient={true} gradientColor='black' gradientWidth={320} direction='right'>
-                                {
-                                        toprateds.map((item, key) =>
-                                            <MovieCard2 item={item} key={key} />
-                                        )
-                                    }
-                                </Marquee>
-                                <Marquee className="flex_cards" loop={0} gradient={true} gradientColor='black' gradientWidth={320} direction='left'>
-                                {
-                                        toprateds.map((item, key) =>
-                                            <MovieCard2 item={item} key={key} />
-                                        )
-                                    }
-                                </Marquee>
-                            </div> */}
                                 <div className="flex_movie m_12" style={{
                                     overflow:'hidden'
                                 }}>

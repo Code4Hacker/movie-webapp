@@ -167,12 +167,12 @@ const ComingSoon = () => {
                 <div className="">
                   <Pagination
                     ellipsis={true}
-                    maxButtons={10}
+                    maxButtons={7}
                     prev={true}
                     last={true}
                     first={true}
                     next={true}
-                    limitOptions={10}
+                    limitOptions={8}
                     pages={totalPage}
                     total={totalPage}
                     activePage={activePage}
@@ -198,12 +198,12 @@ const ComingSoon = () => {
                 }}>
                   <Pagination
                     ellipsis={true}
-                    maxButtons={10}
+                    maxButtons={7}
                     prev={true}
                     last={true}
                     first={true}
                     next={true}
-                    limitOptions={10}
+                    limitOptions={7}
                     pages={totalPage}
                     total={totalPage}
                     activePage={activePage}

@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { BrowserSafari, CameraVideo, People, PieChart, Watch } from "react-bootstrap-icons";
 import { coming, dashboard, home, trendings } from '../statics/paths';
 import { Link, useLocation } from 'react-router-dom';
-import { Divider } from 'rsuite';
+import { Divider, Modal } from 'rsuite';
 const SiderBar = () => {
+    const [open, setOpen] = useState(false)
     const {pathname} = useLocation();
     const sidelist = [
         window.localStorage.getItem("userN") ?{
@@ -25,11 +26,6 @@ const SiderBar = () => {
             icon:<PieChart/>,
             title:"Tredings",
             tag:trendings
-        },
-        {
-            icon:<CameraVideo/>,
-            title:"Watching Now",
-            tag:"people"
         }
     ];
     const sidelist2 = [
@@ -65,8 +61,19 @@ const SiderBar = () => {
                     <br />
                     <br />
                     {
-                        sidelist2.map((item, key) => <button className={`button ${pathname === item.tag? 'active':''}`} key={key}><Link to={item.tag}><span>{item.icon}</span> <span>{item.title}</span></Link></button>)
+                        sidelist2.map((item, key) => <button className={`button ${pathname === item.tag? 'active':''}`} key={key}><Link onClick={() => setOpen(true)}><span>{item.icon}</span> <span>{item.title}</span></Link></button>)
                     }
+                    <Modal open={open} onClose={() => setOpen(false)}>
+                        <Modal.Body>
+                            <h2 style={{
+                                color:'var(--secondary)'
+                            }}>Hahah!</h2>
+                            <h1>Gotcha Us...</h1>
+                            <p style={{
+                                color:'var(--slim_grey2)'
+                            }}>Sorry for disappointing but this feature will be back soon, just stay alert. Best friend for Movies</p>
+                        </Modal.Body>
+                    </Modal>
                     <Divider className='divider'/>
                 </div>
             </div>

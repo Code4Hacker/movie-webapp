@@ -7,6 +7,7 @@ import { Link, useLocation } from 'react-router-dom';
 const TopLists = () => {
     const {pathname} = useLocation();
     const [open, setOpen] = React.useState(false);
+    const [opens, setOpens] = React.useState(false);
     const [overflow, setOverflow] = React.useState(true);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -79,8 +80,19 @@ const TopLists = () => {
                                 <br />
                                 <br />
                                 {
-                                    sidelist2.map((item, key) => <button className={`button ${pathname === item.tag ? 'active' : ''}`} key={key}><Link ><span>{item.icon}</span> <span>{item.title}</span></Link></button>)
+                                    sidelist2.map((item, key) => <button className={`button ${pathname === item.tag ? 'active' : ''}`} key={key}><Link onClick={() => setOpens(true)}><span>{item.icon}</span> <span>{item.title}</span></Link></button>)
                                 }
+                                <Modal open={opens} onClose={() => setOpens(false)}>
+                                    <Modal.Body>
+                                        <h2 style={{
+                                            color:'var(--secondary)'
+                                        }}>Hahah!</h2>
+                                        <h1>Gotcha Us...</h1>
+                                        <p style={{
+                                            color:'var(--slim_grey2)'
+                                        }}>Sorry for disappointing but this feature will be back soon, just stay alert. Best friend for Movies</p>
+                                    </Modal.Body>
+                                </Modal>
                                 <Divider className='divider' />
                             </div>
                         </div>

@@ -1,15 +1,13 @@
 import React from 'react'
 import { baseUrlImage } from '../provider/baseURLs'
 import { imdbImage } from '../assets'
-import Aos from 'aos'
 import { addWatchList, getGenre } from '../provider/requests/hitmydb'
 const MovieCard = ({ item, setWatchlists }) => {
-    Aos.init();
     return (
         <>
-            <div className='movie_card' style={{
+            <div className='movie_card animation__animate animate__animated animate__fadeInUp' style={{
                 backgroundImage: `url(${baseUrlImage}${item.poster_path})`
-            }} data-aos="fade-up">
+            }}>
                 <div className="shadow">
                 <div className="" style={{
                             display: 'flex',
