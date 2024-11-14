@@ -31,6 +31,8 @@ XGemini is a dynamic movie app designed to help users explore, track, and manage
    - **Axios**: For API requests to the backend.
    - **JWT-decode**: For decoding JSON Web Tokens on the client side.
    - **ApexCharts**: Used to render the watchlist activity graph for a visual summary of user activity.
+   - **RSUITE: for modals selections
+   - **MUI: user validation and Input decoration
 
 2. **Backend (PHP)**
    - **Firebase JWT**: Used for token creation and validation to ensure secure access to protected routes.
