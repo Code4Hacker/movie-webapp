@@ -1,9 +1,11 @@
 .home_page.dashboard {
     overflow-x: hidden;
+
     .container.shortlists {
         margin-top: 80px;
         display: grid;
         grid-template-columns: 300px 65vw;
+
         >*:nth-child(1) {
             background-color: var(--slim_grey2);
             padding: 10px;
@@ -20,6 +22,7 @@
                 font-size: 4em;
             }
         }
+
         >*:nth-child(2) {
             margin-left: 24px;
             color: var(--primary);
@@ -32,14 +35,17 @@
             border-radius: 24px;
             overflow-y: hidden;
             display: flex;
+
             h1 {
                 font-weight: 900;
             }
+
             img {
                 width: 90px;
             }
         }
     }
+
     .prev_card {
         position: relative;
         display: flex;
@@ -50,11 +56,13 @@
         .search_movie {
             padding: 10px;
         }
+
         img {
             width: 300px;
             border-radius: 24px;
         }
     }
+
     .chart_container {
         margin: 50px;
         border-radius: 24px;
@@ -66,18 +74,22 @@
 
             color: var(--primary) !important;
         }
+
         .apexcharts-text {
             fill: var(--cream) !important;
 
         }
     }
 }
+
 .container.center {
     text-align: center;
 
 }
+
 .profile {
     right: 10px !important;
+
     // * {
     //     display: grid;
     // }
@@ -149,18 +161,22 @@
     background-color: var(--secondary) !important;
     border: 1px solid var(--secondary) !important;
 }
-@media screen and (max-width:390px){
-    .watchl{
+
+@media screen and (max-width:390px) {
+    .watchl {
         width: 240px !important;
-        img{
-            position: relative ;
+
+        img {
+            position: relative;
             width: 200px !important;
         }
     }
+
     .container.shortlists {
         margin-top: 80px;
         display: grid;
         grid-template-columns: 150px 65vw !important;
+
         >*:nth-child(1) {
             background-color: var(--slim_grey2);
             padding: 10px;
@@ -178,6 +194,7 @@
                 font-size: 4em;
             }
         }
+
         >*:nth-child(2) {
             margin-left: 24px;
             color: var(--primary);
@@ -190,12 +207,23 @@
             border-radius: 24px;
             overflow-y: hidden;
             display: flex;
+
             h1 {
                 font-weight: 900;
             }
+
             img {
                 width: 90px;
             }
         }
+    }
+}
+
+.container.centered.topped {
+    * {
+        justify-content: center !important;
+        align-items: center !important;
+        justify-items: center !important;
+        text-align: center !important;
     }
 }

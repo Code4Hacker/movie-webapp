@@ -174,7 +174,6 @@ const ComingSoon = () => {
                     last={true}
                     first={true}
                     next={true}
-                    limitOptions={8}
                     pages={totalPage}
                     total={totalPage}
                     activePage={activePage}
@@ -205,7 +204,6 @@ const ComingSoon = () => {
                     last={true}
                     first={true}
                     next={true}
-                    limitOptions={7}
                     pages={totalPage}
                     total={totalPage}
                     activePage={activePage}

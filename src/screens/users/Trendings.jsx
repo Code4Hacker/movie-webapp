@@ -26,6 +26,7 @@ const Trendings = () => {
       if ((await populars).status === 200) {
         setPopulars((await populars).data.results);
         setTotalPage((await populars).data.total_pages)
+        console.log((await populars).data.total_pages)
       } else {
         toast.error("something went wrong");
       }
@@ -174,7 +175,6 @@ const Trendings = () => {
                     last={true}
                     first={true}
                     next={true}
-                    limitOptions={7}
                     pages={totalPage}
                     total={totalPage}
                     activePage={activePage}
@@ -205,7 +205,6 @@ const Trendings = () => {
                     last={true}
                     first={true}
                     next={true}
-                    limitOptions={7}
                     pages={totalPage}
                     total={totalPage}
                     activePage={activePage}
