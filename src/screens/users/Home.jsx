@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { Loading, MovieCard, SiderBar, TopLists } from '../../components'
-import {  imdbImage } from '../../assets'
+import { imdbImage } from '../../assets'
 import { BookmarkFill, Search, Wifi } from 'react-bootstrap-icons'
 import { baseUrlImage } from '../../provider/baseURLs'
-import { Carousel, Container, Divider, Tooltip, Whisper} from 'rsuite'
-import Aos from 'aos'
+import { Carousel, Container, Divider, Tooltip, Whisper } from 'rsuite'
 import toast from 'react-hot-toast'
 import { movieProviderPath, popularPath, searchPath, topratedPath, trendingsPath, upcomingPath } from '../../statics/urls'
 import { Link, useNavigate } from 'react-router-dom'
 import Marquee from 'react-fast-marquee'
 import { fetchAllMovie } from '../../provider/requests/fetchallmovie'
 import { coming, movieslugId, signIn } from '../../statics/paths'
-import { addWatchList, getWatchlists} from '../../provider/requests/hitmydb'
+import { addWatchList, getWatchlists } from '../../provider/requests/hitmydb'
 import { auth } from '../../firebaseConfig'
 import { signOut } from 'firebase/auth'
 import MovieCard2 from '../../components/MovieCard2'
@@ -61,23 +60,22 @@ const Home = () => {
     }
     const handleSignOut = async () => {
         try {
-          await signOut(auth);
-          storage.clear();
-          toast.success("logout success")
-          window.location.href = "";
+            await signOut(auth);
+            storage.clear();
+            toast.success("logout success")
+            window.location.href = "";
         } catch (error) {
-          console.error("Error signing out", error);
+            console.error("Error signing out", error);
         }
-      };
+    };
     useEffect(() => {
-        Aos.init()
         fetchmovies()
-        getWatchlists({setWatchlists:setWatchlists})
+        getWatchlists({ setWatchlists: setWatchlists })
     }, []);
     const nav = useNavigate();
-    const slugdata = ({contents}) => {
+    const slugdata = ({ contents }) => {
         storage.setItem("contents", JSON.stringify(contents));
-        nav(movieslugId({id:contents.id}));
+        nav(movieslugId({ id: contents.id }));
     }
     const tooltip = (
         <Tooltip className='tooltip_'>
@@ -141,41 +139,43 @@ const Home = () => {
                         <div className="grid_items">
                             <div className="topnav">
                                 <ul>
-                                   <TopLists/>
+                                    <TopLists />
                                 </ul>
                                 <div className="flex">
 
-                                <Whisper
-                                    placement="bottom" controlId="control-id-click" trigger="click" speaker={tooltip}>
-                                    <div className="input">
-                                        <input type="text" placeholder='search movie title...' onChange={(e) => searchMovie(e.target.value)} />
-                                        <button><Search /></button>
-                                    </div>
-                                </Whisper>
-                                <Whisper
-                                    placement="bottom" controlId="control-id-click" trigger="click" speaker={bookmarks}>
-                                    <button className='icon'>
-                                        <BookmarkFill />
-                                    </button>
-                                </Whisper>
-                                {
-                                    isLogin === "true" ?
-                                        <Whisper placement='bottom' controlId="control-id-click" trigger="click" speaker={<Tooltip>
-                                            <button className='trans' onClick={handleSignOut}>Sign Out</button>
-                                        </Tooltip>}>
-                                            <div className="avatar">
-                                            <div className="shadow_over">
-                                                <h1>{(storage.getItem("userN") !== null ? storage.getItem("userN").slice(0, 1) : "A").toUpperCase()}</h1>
-                                            </div>
+                                    <Whisper
+                                        placement="bottom" controlId="control-id-click" trigger="click" speaker={tooltip}>
+                                        <div className="input">
+                                            <input type="text" placeholder='search movie title...' onChange={(e) => searchMovie(e.target.value)} />
+                                            <button><Search /></button>
                                         </div>
-                                        </Whisper> : <Link className="login" to={signIn}>
-                                            Sign Up
-                                        </Link>
-                                }
+                                    </Whisper>
+                                    <Whisper
+                                        placement="bottom" controlId="control-id-click" trigger="click" speaker={bookmarks}>
+                                        <button className='icon'>
+                                            <BookmarkFill />
+                                        </button>
+                                    </Whisper>
+                                    {
+                                        isLogin === "true" ?
+                                            <Whisper placement='bottom' controlId="control-id-click" trigger="click" speaker={<Tooltip>
+                                                <button className='trans' onClick={handleSignOut}>Sign Out</button>
+                                            </Tooltip>}>
+                                                <div className="avatar">
+                                                    <div className="shadow_over">
+                                                        <h1>{(storage.getItem("userN") !== null ? storage.getItem("userN").slice(0, 1) : "A").toUpperCase()}</h1>
+                                                    </div>
+                                                </div>
+                                            </Whisper> : <Link className="login" to={signIn}>
+                                                Sign Up
+                                            </Link>
+                                    }
 
                                 </div>
                             </div>
-                            <div className="">
+                            <div className="" style={{
+                                marginTop: '80px'
+                            }}>
                                 <Carousel className='cc' autoplay autoplayInterval={9000}>
                                     {
                                         bannerMovie.map((item, key) => <div className="banner" style={{
@@ -185,7 +185,7 @@ const Home = () => {
                                                 <div className="contents">
                                                     <Container>
                                                         <h1 className='animate__animated animate__fadeInUp'>{item.title}</h1>
-                                                        <p className='animate__animated animate__fadeInUp  animate__delay-1s'>{item.overview?.length > 475 ? item.overview.substring(0, 475)+"...":item.overview}</p>
+                                                        <p className='animate__animated animate__fadeInUp  animate__delay-1s'>{item.overview?.length > 275 ? item.overview.substring(0, 275) + "..." : item.overview}</p>
                                                         <div className="animate__animated animate__fadeInUp  animate__delay-2s" style={{
                                                             display: 'flex',
                                                             textAlign: "center",
@@ -197,8 +197,8 @@ const Home = () => {
                                                         </div>
 
                                                         <div className="flex">
-                                                            <button className='watch animate__animated animate__fadeInUp  animate__delay-3s' style={{ position: 'relative', zIndex: 2 }}  onClick={() => slugdata({contents: item})}>Watch Now</button>
-                                                            <button className='watch animate__animated animate__fadeInUp  animate__delay-3s' style={{ position: 'relative', zIndex: 2 }} onClick={() => addWatchList({ movie: item, setWatchlists:setWatchlists })}>Add to Watchlist</button>
+                                                            <button className='watch animate__animated animate__fadeInUp  animate__delay-3s' style={{ position: 'relative', zIndex: 2 }} onClick={() => slugdata({ contents: item })}>Watch Now</button>
+                                                            <button className='watch animate__animated animate__fadeInUp  animate__delay-3s' style={{ position: 'relative', zIndex: 2 }} onClick={() => addWatchList({ movie: item, setWatchlists: setWatchlists })}>Add to Watchlist</button>
                                                         </div>
                                                     </Container>
                                                 </div>
@@ -223,10 +223,10 @@ const Home = () => {
                             <div className="container">
                                 <div className="space_btn">
 
-                                <h4 className='bolder'>Upcoming Movies</h4>
-                                <Link className='button' to={coming}>View All</Link>
+                                    <h4 className='bolder'>Upcoming Movies</h4>
+                                    <Link className='button' to={coming}>View All</Link>
                                 </div>
-                                <div className="flex_movie m_12">
+                                <div className="flex_movie m_12 notcompress">
                                     {
                                         upcomings.map((item, key) =>
                                             <MovieCard item={item} setWatchlists={setWatchlists} key={key} />
@@ -234,21 +234,23 @@ const Home = () => {
                                     }
                                 </div>
                                 <h4 className='bolder pt_32'>Top Rated Movies</h4>
-                                <div className="flex_movie m_12" style={{
-                                    overflow:'hidden'
+                                <div className="flex_movie m_12 notcompress" style={{
+                                    overflow: 'hidden'
                                 }}>
-                                    {
+                                   <Marquee direction='right'>
+                                   {
                                         toprateds.map((item, key) =>
                                             <MovieCard2 item={item} key={key} />
                                         )
                                     }
+                                   </Marquee>
                                 </div>
                                 <div className="space_btn">
 
-                                <h4 className='bolder'>Most Populars</h4>
-                                <Link className='button' to={coming}>View All</Link>
+                                    <h4 className='bolder'>Most Populars</h4>
+                                    <Link className='button' to={coming}>View All</Link>
                                 </div>
-                                <div className="flex_movie m_12">
+                                <div className="flex_movie m_12 notcompress">
                                     {
                                         popular.map((item, key) =>
                                             <MovieCard item={item} setWatchlists={setWatchlists} key={key} />

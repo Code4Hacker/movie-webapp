@@ -163,7 +163,9 @@ const ComingSoon = () => {
 
                 </div>
               </div>
-              <div className="container centered topped">
+              <div className="container centered topped" style={{
+                marginTop:'40px'
+              }}>
                 <div className="">
                   <Pagination
                     ellipsis={true}

@@ -2,7 +2,7 @@ import React from 'react'
 import { baseUrlImage } from '../provider/baseURLs'
 import { imdbImage } from '../assets'
 import { addWatchList, getGenre } from '../provider/requests/hitmydb'
-const MovieCard = ({ item, setWatchlists }) => {
+const MovieCard = ({ item, setWatchlists, text }) => {
     return (
         <>
             <div className='movie_card animation__animate animate__animated animate__fadeInUp' style={{

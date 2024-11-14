@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react'
 import { Loading, MovieCard, SiderBar, TopLists } from '../../components'
 import { BookmarkFill, PenFill, Search, Wifi } from 'react-bootstrap-icons'
 import { baseUrlImage } from '../../provider/baseURLs'
-import { Divider, Tooltip, Whisper } from 'rsuite'
+import { Divider, SelectPicker, Tooltip, Whisper } from 'rsuite'
 import Aos from 'aos'
 import toast from 'react-hot-toast'
-import { movieProviderPath,  searchPath, trendingsPath } from '../../statics/urls'
+import { movieProviderPath, popularPath, searchPath, trendingsPath, upcomingPath } from '../../statics/urls'
 import { Link, useNavigate } from 'react-router-dom'
 import Marquee from 'react-fast-marquee'
 import { fetchAllMovie } from '../../provider/requests/fetchallmovie'
-import { movieslugId, signIn } from '../../statics/paths'
+import { movieslugId, signIn, trendings } from '../../statics/paths'
 import { getWatchlists, getWatchlistsGraph, handleUpdate } from '../../provider/requests/hitmydb'
 import { auth } from '../../firebaseConfig'
 import { signOut } from 'firebase/auth'
@@ -24,13 +24,17 @@ const Dashboard = () => {
     const [watchlists, setWatchlists] = useState([]);
     const [update, setUpdate] = useState(false);
     const [password, setPassword] = useState();
+    const data = ['Default - (Now Playing)', 'popular', 'upcoming'].map(
+        item => ({ label: item, value: item })
+    );
     const isLogin = storage.getItem("isLogin") ?? "false";
-    const fetchmovies = async () => {
-        let allTrendings = fetchAllMovie(`${trendingsPath({ page: 1 })}`);
+    const fetchmovies = async ({ path }) => {
+        let allTrendings = fetchAllMovie(`${path === 'popular' ? popularPath({ page: 1 }) : path === 'upcoming' ? upcomingPath({ page: 1 }) : trendingsPath({ page: 1 })
+            }`);
         let movieProvider = fetchAllMovie(`${movieProviderPath}`);
         try {
             if ((await allTrendings).status === 200) {
-                setBannerMovie((await allTrendings).data.results.splice(0, 8));
+                setBannerMovie((await allTrendings).data.results.splice(0, 5));
                 setMovieProvider((await movieProvider).data.results);
             } else {
                 toast.error("something went wrong");
@@ -66,7 +70,7 @@ const Dashboard = () => {
 
     useEffect(() => {
         Aos.init()
-        fetchmovies()
+        fetchmovies({ path: 'Default - (Now Playing)' })
         getWatchlists({ setWatchlists: setWatchlists })
         getWatchlistsGraph({ setGraphdata: setGraphdata });
 
@@ -140,49 +144,49 @@ const Dashboard = () => {
                         <div className="grid_items">
                             <div className="topnav">
                                 <ul>
-                                    <TopLists/>
+                                    <TopLists />
                                 </ul>
                                 <div className="flex">
 
-                                <Whisper
-                                    placement="bottom" controlId="control-id-click" trigger="click" speaker={tooltip}>
-                                    <div className="input">
-                                        <input type="text" placeholder='search movie title...' onChange={(e) => searchMovie(e.target.value)} />
-                                        <button><Search /></button>
-                                    </div>
-                                </Whisper>
-                                <Whisper
-                                    placement="bottom" controlId="control-id-click" trigger="click" speaker={bookmarks}>
-                                    <button className='icon'>
-                                        <BookmarkFill />
-                                    </button>
-                                </Whisper>
-                                {
-                                    isLogin === "true" ?
-                                        <Whisper placement='bottom' controlId="control-id-click" trigger="click" speaker={<Tooltip className='profile'>
-                                            <p onClick={() => setUpdate(true)}>{(storage.getItem("userN") !== null ? storage.getItem("userN") : "A").toUpperCase()} <span><PenFill /></span></p>
+                                    <Whisper
+                                        placement="bottom" controlId="control-id-click" trigger="click" speaker={tooltip}>
+                                        <div className="input">
+                                            <input type="text" placeholder='search movie title...' onChange={(e) => searchMovie(e.target.value)} />
+                                            <button><Search /></button>
+                                        </div>
+                                    </Whisper>
+                                    <Whisper
+                                        placement="bottom" controlId="control-id-click" trigger="click" speaker={bookmarks}>
+                                        <button className='icon'>
+                                            <BookmarkFill />
+                                        </button>
+                                    </Whisper>
+                                    {
+                                        isLogin === "true" ?
+                                            <Whisper placement='bottom' controlId="control-id-click" trigger="click" speaker={<Tooltip className='profile'>
+                                                <p onClick={() => setUpdate(true)}>{(storage.getItem("userN") !== null ? storage.getItem("userN") : "A").toUpperCase()} <span><PenFill /></span></p>
 
-                                            {
-                                                update ? <>
-                                                    <input type="password" placeholder='New Password' value={password} onChange={(e) => setPassword(e.target.value)} />
-                                                    <button className='submitting' onClick={() => {
-                                                        handleUpdate({ newpassword: password });
-                                                        setPassword("");
-                                                        setUpdate(false)
-                                                    }}>Update</button>
-                                                </> :
-                                                    <button className='trans' onClick={handleSignOut}>Sign Out</button>
-                                            }
-                                        </Tooltip>}>
-                                            <div className="avatar">
-                                                <div className="shadow_over">
-                                                    <h1>{(storage.getItem("userN") !== null ? storage.getItem("userN").slice(0, 1) : "A").toUpperCase()}</h1>
+                                                {
+                                                    update ? <>
+                                                        <input type="password" placeholder='New Password' value={password} onChange={(e) => setPassword(e.target.value)} />
+                                                        <button className='submitting' onClick={() => {
+                                                            handleUpdate({ newpassword: password });
+                                                            setPassword("");
+                                                            setUpdate(false)
+                                                        }}>Update</button>
+                                                    </> :
+                                                        <button className='trans' onClick={handleSignOut}>Sign Out</button>
+                                                }
+                                            </Tooltip>}>
+                                                <div className="avatar">
+                                                    <div className="shadow_over">
+                                                        <h1>{(storage.getItem("userN") !== null ? storage.getItem("userN").slice(0, 1) : "A").toUpperCase()}</h1>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </Whisper> : <Link className="login" to={signIn}>
-                                            Sign Up
-                                        </Link>
-                                }
+                                            </Whisper> : <Link className="login" to={signIn}>
+                                                Sign Up
+                                            </Link>
+                                    }
                                 </div>
 
                             </div>
@@ -223,7 +227,7 @@ const Dashboard = () => {
                                 }}><span className='linear_text'>CUSTOMIZE YOUR GENRE</span></h1>
                                 {
                                     genre.genres.map((item, key) => <button key={key} className='suggestions' onClick={(e) => {
-                                        e.target.className="clicked"
+                                        e.target.className = "clicked"
                                     }}>{item.name}</button>)
                                 }
                             </div>
@@ -232,7 +236,7 @@ const Dashboard = () => {
                                 <div className="prev_card m_12">
                                     {
                                         watchlists !== undefined && watchlists?.length > 0 ? watchlists.slice(0, 5).map((item, key) =>
-                                            <Link className='search_movie' key={key}>
+                                            <Link className='search_movie watchl' key={key}>
                                                 <img src={`${baseUrlImage}${item.poster_path}`} alt="" />
                                             </Link>
                                         ) : <div className="empty">
@@ -242,13 +246,27 @@ const Dashboard = () => {
                                 </div>
                             </div>
                             <div className="container">
-                                <h4 className='bolder'>Latest Movies</h4>
+                                <div className="space_btn">
+                                    <h4 className='bolder'>Latest <span style={{ color: 'var(--secondary', fontWeight: 900 }}>Five</span> Movies</h4>
+                                    <SelectPicker className='button filter'
+                                        data={data}
+                                        searchable={false}
+                                        style={{ width: 224 }}
+                                        placeholder="filter By"
+                                        onChange={(e) => fetchmovies({ path: e })}
+                                    />
+                                </div>
                                 <div className="flex_movie m_12">
                                     {
                                         bannerMovie.map((item, key) =>
                                             <MovieCard item={item} setWatchlists={setWatchlists} key={key} />
                                         )
                                     }
+                                </div>
+                                <div className="space_btn" style={{
+                                    justifyContent:'center'
+                                }}>
+                                    <Link className='button' to={trendings}>View All</Link>
                                 </div>
                             </div>
                         </div>

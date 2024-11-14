@@ -2,6 +2,10 @@
     display: none !important;
 }
 
+.topnav>* {
+    margin-top: 10px !important;
+}
+
 .centered.topped>* {
     top: 24px;
     left: 50%;
@@ -183,10 +187,11 @@
 
     >*:nth-child(1) {
         background-size: cover;
-        width: 80px;
-        height: 110px;
+        width: 80px !important;
+        height: 110px !important;
         border: 2px solid var(--slim_grey2);
         border-radius: 8px;
+        background-color: rebeccapurple !important;
         margin-right: 8px;
 
 
@@ -195,16 +200,21 @@
     >*:nth-child(2) {
         top: 100%;
         position: relative;
-        transform: translateY(-50%);
 
-        h6 {
+        p {
             font-size: small !important;
             text-wrap: nowrap;
-            // color: var(--secondary) !important;
         }
 
         span {
             font-size: x-small !important;
+            background-color: var(--secondary) !important;
+        }
+
+        .contents2 {
+
+            position: relative;
+            margin-top: 32px;
         }
     }
 }
@@ -430,12 +440,16 @@
     }
 
     .topnav {
-        margin-top: 8px;
-        position: relative;
+        padding-top: 0px !important;
+        position: fixed;
         padding: 4px 40px 0px 0px;
         float: right;
+        width: 84%;
+        z-index: 3;
+        backdrop-filter: blur(20px);
         margin-bottom: 10px;
         display: flex;
+        top: 0px;
 
         .avatar {
             margin-right: 24px;
@@ -766,6 +780,15 @@
 }
 
 @media screen and (max-width:800px) {
+    .cc {
+        width: 96%;
+        position: relative;
+        height: 50vh;
+        margin: 12px;
+        margin-left: 12px !important;
+        border-radius: 50px;
+    }
+
     .movie_card {
         width: 140px !important;
         min-width: 140px !important;
@@ -1021,6 +1044,19 @@
 }
 
 @media screen and (max-width:1424px) {
+    .topnav {
+        padding-top: 0px !important;
+        position: fixed;
+        padding: 4px 40px 0px 0px;
+        float: right;
+        width: 100% !important;
+        z-index: 3;
+        backdrop-filter: blur(20px);
+        margin-bottom: 10px;
+        display: flex;
+        top: 0px;
+    }
+
     .home_page {
         .grid {
             grid-template-columns: auto;
@@ -1033,6 +1069,15 @@
 }
 
 @media screen and (max-width:600px) {
+    .cc {
+        width: 100% !important;
+        position: relative;
+        height: 50vh !important;
+        margin: 12px;
+        margin-left: 0px !important;
+        border-radius: 0px !important;
+    }
+
     .centered.topped>* {
         top: 24px;
         left: 50%;
@@ -1059,16 +1104,16 @@
     }
 
     .topnav {
-        margin-top: 8px;
+        margin-top: 0px;
         position: relative;
-        padding: 4px 40px 0px 0px;
+        padding: 4px 40px 0px 00px !important;
         float: right;
         margin-bottom: 10px;
         display: flex;
         justify-content: space-between !important;
 
         .avatar {
-            margin-right: -20px !important;
+            margin-right: 20px !important;
             width: 38px !important;
             height: 38px !important;
             position: relative;
@@ -1291,7 +1336,52 @@
     }
 }
 
+@media screen and (max-width:575px) {
+    .contents {
+        button {
+            width: 140px !important;
+            max-width: 140px !important;
+            min-width: 140px !important;
+        }
+    }
+}
+
+@media screen and (max-width:430px) {
+    .input {
+        display: none !important;
+    }
+}
+
+@media screen and (max-width:400px) {
+    .contents {
+        p {
+            display: none !important;
+        }
+    }
+}
+
 @media screen and (max-width:390px) {
+
+    .flex_movie.m_12 {
+        overflow-y: hidden !important;
+
+        >* {
+            margin: 4px !important;
+            border-radius: 12px !important;
+
+            button {
+                font-size: xx-small !important;
+                background: none !important;
+                border: none !important;
+            }
+
+            .content2 p {
+                font-size: x-small !important;
+                font-weight: 300 !important;
+            }
+        }
+    }
+
     .centered.topped>* {
         top: 24px;
         left: 50%;
@@ -1318,7 +1408,7 @@
     }
 
     .topnav {
-        margin-top: 8px;
+        margin-top: 0px;
         position: relative;
         padding: 4px 40px 0px 0px;
         float: right;
@@ -1327,7 +1417,7 @@
         justify-content: space-between !important;
 
         .avatar {
-            margin-right: -20px !important;
+            margin-right: 20px !important;
             width: 30px !important;
             height: 30px !important;
             position: relative;
@@ -1345,7 +1435,8 @@
                 width: 100%;
                 height: 100%;
                 z-index: 3;
-                *{
+
+                * {
                     font-size: small !important;
                 }
             }
@@ -1373,7 +1464,8 @@
             font-size: large;
             background-color: var(--cream_opc);
             color: var(--slim_grey);
-            *{
+
+            * {
                 font-size: small !important;
             }
         }
@@ -1563,11 +1655,38 @@
         }
     }
 }
-@media screen and (max-width:370px) {
-    .input{
-        display: none !important;
+
+@media screen and (max-width:750px) {
+    .contents {
+        button {
+            width: 120px !important;
+            max-width: 120px !important;
+            min-width: 120px !important;
+            font-size: x-small !important;
+            margin: 2px !important;
+        }
+
+        h1 {
+            font-size: 2em !important;
+
+        }
     }
 }
+
+@media screen and (max-width:370px) {
+    .input {
+        display: none !important;
+    }
+
+    .space_btn .button {
+        font-size: x-small !important;
+    }
+
+    h4 {
+        font-size: 1em !important;
+    }
+}
+
 .rs-modal-dialog * {
     background-color: var(--primary) !important;
 }
@@ -1576,4 +1695,22 @@
     background: none !important;
     font-size: 2em !important;
     color: var(--cream) !important;
+}
+
+.button.filter {
+   padding: 0px !important;
+   width: 100px !important;
+}
+
+.rs-picker-toggle.rs-btn.rs-btn-default {
+    background: none !important;
+    border: none !important;
+    outline: none !important;
+    font-size: small;
+
+    * {
+        color: var(--secondary) !important;
+        border: none !important;
+        outline: none !important;
+    }
 }

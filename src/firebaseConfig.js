@@ -1,10 +1,9 @@
-// firebaseConfig.js
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
+import { firebaseKey } from "./provider/baseURLs";
 
-// Your Firebase configuration object
 const firebaseConfig = {
-    apiKey: "AIzaSyCuaK5xv9F7YN9a7Mq5X89boDmnQH3qESA",
+    apiKey: firebaseKey,
     authDomain: "movieapp-65e6f.firebaseapp.com",
     projectId: "movieapp-65e6f",
     storageBucket: "movieapp-65e6f.firebasestorage.app",
@@ -13,9 +12,7 @@ const firebaseConfig = {
     measurementId: "G-31P3027F2C"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// Initialize Firebase Authentication and Google provider
 export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
