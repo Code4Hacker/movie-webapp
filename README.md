@@ -54,10 +54,15 @@ XGemini is a dynamic movie app designed to help users explore, track, and manage
 ## Screenshort for the Application
 Homepage or Browsing Page
 <img width="1680" alt="Screenshot 2024-11-14 at 12 50 42" src="https://github.com/user-attachments/assets/7baa1531-c787-4238-803a-309ad3438b09">
+
+
 <img width="1680" alt="Screenshot 2024-11-14 at 12 52 49" src="https://github.com/user-attachments/assets/fe0019f0-c5d8-4f9e-a5b3-4a0918e66246">
+
+
 <img width="1680" alt="Screenshot 2024-11-14 at 12 53 26" src="https://github.com/user-attachments/assets/7b8084aa-5cc9-4833-970e-5550a1bd9702">
 
 View All Page:
+
 <img width="1680" alt="Screenshot 2024-11-14 at 13 03 09" src="https://github.com/user-attachments/assets/cf30bc31-cac1-4585-9342-a48b30bc556f">
 
 Dashboard:
@@ -65,6 +70,7 @@ Dashboard:
 <img width="1680" alt="Screenshot 2024-11-14 at 13 04 08" src="https://github.com/user-attachments/assets/4d083734-d1ef-4c7a-b6a6-99435e18f559">
 
 UPDATE PASSWORD:
-<img width="519" alt="Screenshot 2024-11-14 at 13 04 32" src="https://github.com/user-attachments/assets/7f2c8e31-306f-4bde-b293-db58ca10cd2b">
+
+<img width="1680" alt="Screenshot 2024-11-14 at 13 12 21" src="https://github.com/user-attachments/assets/d7515548-02f8-4b88-b578-c93842075687">
 
 
