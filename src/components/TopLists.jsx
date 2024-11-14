@@ -31,11 +31,6 @@ const TopLists = () => {
             icon: <PieChart />,
             title: "Tredings",
             tag: trendings
-        },
-        {
-            icon: <CameraVideo />,
-            title: "Watching Now",
-            tag: "people"
         }
     ];
     const sidelist2 = [
