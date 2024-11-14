@@ -197,7 +197,7 @@ const Home = () => {
                                                         </div>
 
                                                         <div className="flex">
-                                                            <button className='watch animate__animated animate__fadeInUp  animate__delay-3s' style={{ position: 'relative', zIndex: 2 }} onClick={() => slugdata({ contents: item })}>Watch Now</button>
+                                                            <button className='watch animate__animated animate__fadeInUp  animate__delay-3s' style={{ position: 'relative', zIndex: 2 }}>Watch Now</button>
                                                             <button className='watch animate__animated animate__fadeInUp  animate__delay-3s' style={{ position: 'relative', zIndex: 2 }} onClick={() => addWatchList({ movie: item, setWatchlists: setWatchlists })}>Add to Watchlist</button>
                                                         </div>
                                                     </Container>
