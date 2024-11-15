@@ -10,7 +10,7 @@ export default function SignInSide(props: { disableCustomTheme?: boolean }) {
   const [open, setOpen] = React.useState(true);
   return (
     <AppTheme {...props}>
-      <CssBaseline enableColorScheme />
+      {/* <CssBaseline enableColorScheme /> */}
       <Stack
         direction="column"
         component="main"
@@ -29,7 +29,7 @@ export default function SignInSide(props: { disableCustomTheme?: boolean }) {
               zIndex: -1,
               inset: 0,
               backgroundImage:
-                'radial-gradient(ellipse at 50% 50%, var(--secondary2), hsl(0, 0%, 100%))',
+                'radial-gradient(at 50% 50%, var(--secondary2), hsl(220, 30%, 5%))',
               backgroundRepeat: 'no-repeat',
               ...theme.applyStyles('dark', {
                 background:

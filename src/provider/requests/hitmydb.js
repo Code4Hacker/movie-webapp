@@ -51,9 +51,13 @@ export const getWatchlists = async ({ setWatchlists }) => {
     });
     if (((await get_movies).status) === 200) {
         let responses = (await get_movies).data;
+        console.log(responses)
         switch (responses.status) {
             case 200:
                 setWatchlists(responses.results)
+                setTimeout(() => {
+                    setWatchlists(responses.results)
+                }, 2000);
                 break;
             default:
                 toast.error(`${responses.message}`);

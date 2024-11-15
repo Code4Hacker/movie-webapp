@@ -39,7 +39,8 @@ export default function Content() {
               {item.title}
             </Typography>
             <Typography variant="body2" sx={{ color: 'text.secondary' }} className='animate__animated animate__fadeInUp' style={{
-              animationDuration:`${(index + 1)*1500}`
+              animationDuration:`${(index + 1)*1500}`,
+              color:'var(--cream_opc3)'
             }}>
               {item.description}
             </Typography>
